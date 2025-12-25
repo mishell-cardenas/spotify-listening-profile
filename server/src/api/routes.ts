@@ -98,3 +98,6 @@ router.get("/playlist/summary", getPlaylistDetails)
  * Info: track name, album_name, artist_name
  */
 router.get("/playlist/tracks", getPlaylistTracks)
+
+
+export default router;
