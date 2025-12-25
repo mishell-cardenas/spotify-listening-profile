@@ -5,7 +5,7 @@ const router = Router();
 
 const CLIENT_ID = process.env.CLIENT_ID!;
 const CLIENT_SECRET = process.env.CLIENT_SECRET!;
-const REDIRECT_URI = process.env.REDIRECT_URI!; // e.g. http://localhost:8888/auth/callback
+const REDIRECT_URI = process.env.REDIRECT_URI!;
 const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN ?? "http://127.0.0.1:5173";
 
 const SCOPES = [
