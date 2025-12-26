@@ -5,7 +5,7 @@ export type UserProfile = {
   images: { url: string };
 }
 
-export type topArtist = {
+export type TopArtist = {
   items: Array<{
     id: string;
     followers: { total: number };
@@ -14,7 +14,7 @@ export type topArtist = {
   }>
 }
 
-export type topTrack = {
+export type TopTrack = {
   items: Array<{
     id: string;
     name: string;
@@ -31,7 +31,7 @@ export type topTrack = {
   }>;
 };
 
-export type recentTracks = {
+export type RecentTracks = {
   items: Array<{
     track: {
       album: { 
