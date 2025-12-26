@@ -1,4 +1,4 @@
-export type artistDetails = {
+export type ArtistDetails = {
   id: string;
   name: string;
   popularity: number;
