@@ -1,4 +1,4 @@
-export type userPlaylists = {
+export type UserPlaylists = {
   items: Array<{
     id: string;
     name: string;
@@ -17,7 +17,7 @@ export type userPlaylists = {
   total: number;
 };
 
-export type playlistDetails = {
+export type PlaylistDetails = {
   id: string;
   name: string;
   description: string | null;
@@ -31,7 +31,7 @@ export type playlistDetails = {
   };
 };
 
-export type playlistTracks = {
+export type PlaylistTracks = {
   items: Array<{
     track: {
       id: string;
