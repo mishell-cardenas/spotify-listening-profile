@@ -1,3 +1,5 @@
+import type { SpotifyImage } from "../utils/types.js";
+
 export type TrackDetails = {
   id: string;
   name: string;
@@ -12,6 +14,6 @@ export type TrackDetails = {
     name: string;
     release_date: string;
     total_tracks: number;
-    images: Array<{ url: string }>;
+    images: SpotifyImage[];
   };
 };

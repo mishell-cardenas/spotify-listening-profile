@@ -36,8 +36,8 @@ export async function getProfileSummary(req: Request, res: Response) {
 
       const refreshed = await refreshAccessToken(refreshToken);
       if (!refreshed.ok) {
-        res.clearCookie("spotify_access_token");
-        res.clearCookie("spotify_refresh_token");
+        res.clearCookie("spotify_access_token", { path: "/" });
+        res.clearCookie("spotify_refresh_token", { path: "/" });
         return res.status(401).json({ error: "Session expired" });
       }
 
@@ -46,8 +46,9 @@ export async function getProfileSummary(req: Request, res: Response) {
       res.cookie("spotify_access_token", access_token, {
         httpOnly: true,
         sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
-        maxAge: expires_in * 1000
+        secure: false,
+        maxAge: expires_in * 1000,
+        path: "/"
       });
 
       data = await fetch("https://api.spotify.com/v1/me", {
@@ -64,8 +65,8 @@ export async function getProfileSummary(req: Request, res: Response) {
     const profileSummary = {
       id: userData.id,
       displayName: userData.display_name,
-      folowers: userData.followers.total,
-      imageUrl: userData.images.url,
+      followers: userData.followers.total,
+      imageUrl: userData.images?.[0]?.url ?? null,
     };
 
     return res.json(profileSummary);
@@ -101,8 +102,8 @@ export async function getTopArtist(req: Request, res: Response) {
 
       const refreshed = await refreshAccessToken(refreshToken);
       if (!refreshed.ok) {
-        res.clearCookie("spotify_access_token");
-        res.clearCookie("spotify_refresh_token");
+        res.clearCookie("spotify_access_token", { path: "/" });
+        res.clearCookie("spotify_refresh_token", { path: "/" });
         return res.status(401).json({ error: "Session expired" });
       }
 
@@ -111,8 +112,9 @@ export async function getTopArtist(req: Request, res: Response) {
       res.cookie("spotify_access_token", access_token, {
         httpOnly: true,
         sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
-        maxAge: expires_in * 1000
+        secure: false,
+        maxAge: expires_in * 1000,
+        path: "/"
       });
 
       data = await fetch("https://api.spotify.com/v1/me/top/artists?time_range=long_term&limit=50", {
@@ -121,7 +123,7 @@ export async function getTopArtist(req: Request, res: Response) {
     }
 
     if (!data.ok) {
-      return res.status(data.status).json({ error: "Failed to fetch profile" });
+      return res.status(data.status).json({ error: "Failed to top artists" });
     }
 
     const userData = (await data.json()) as TopArtist;
@@ -166,8 +168,8 @@ export async function getTopTracks(req: Request, res: Response) {
 
       const refreshed = await refreshAccessToken(refreshToken);
       if (!refreshed.ok) {
-        res.clearCookie("spotify_access_token");
-        res.clearCookie("spotify_refresh_token");
+        res.clearCookie("spotify_access_token", { path: "/" });
+        res.clearCookie("spotify_refresh_token", { path: "/" });
         return res.status(401).json({ error: "Session expired" });
       }
 
@@ -176,8 +178,9 @@ export async function getTopTracks(req: Request, res: Response) {
       res.cookie("spotify_access_token", access_token, {
         httpOnly: true,
         sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
-        maxAge: expires_in * 1000
+        secure: false,
+        maxAge: expires_in * 1000,
+        path: "/"
       });
 
       data = await fetch("https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=50", {
@@ -186,7 +189,7 @@ export async function getTopTracks(req: Request, res: Response) {
     }
 
     if (!data.ok) {
-      return res.status(data.status).json({ error: "Failed to fetch profile" });
+      return res.status(data.status).json({ error: "Failed to top tracks" });
     }
 
     const userData = (await data.json()) as TopTrack;
@@ -217,7 +220,7 @@ export async function getTopTracks(req: Request, res: Response) {
  * URL: https://api.spotify.com/v1/me/player/recently-played?limit=50
  * Info: get recently played tracks (50) - id, image, name, album, artist, duration
  */
-export async function getRecentlyPlayer(req: Request, res: Response) {
+export async function getRecentlyPlayed(req: Request, res: Response) {
   try {
     const accessToken = req.cookies.spotify_access_token as string | undefined;
     const refreshToken = req.cookies.spotify_refresh_token as string | undefined;
@@ -238,8 +241,8 @@ export async function getRecentlyPlayer(req: Request, res: Response) {
 
       const refreshed = await refreshAccessToken(refreshToken);
       if (!refreshed.ok) {
-        res.clearCookie("spotify_access_token");
-        res.clearCookie("spotify_refresh_token");
+        res.clearCookie("spotify_access_token", { path: "/" });
+        res.clearCookie("spotify_refresh_token", { path: "/" });
         return res.status(401).json({ error: "Session expired" });
       }
 
@@ -248,8 +251,9 @@ export async function getRecentlyPlayer(req: Request, res: Response) {
       res.cookie("spotify_access_token", access_token, {
         httpOnly: true,
         sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
-        maxAge: expires_in * 1000
+        secure: false,
+        maxAge: expires_in * 1000,
+        path: "/"
       });
 
       data = await fetch("https://api.spotify.com/v1/me/player/recently-played?limit=50", {
@@ -258,12 +262,12 @@ export async function getRecentlyPlayer(req: Request, res: Response) {
     }
 
     if (!data.ok) {
-      return res.status(data.status).json({ error: "Failed to fetch profile" });
+      return res.status(data.status).json({ error: "Failed to fetch recently played tracks" });
     }
 
     const userData = (await data.json()) as RecentTracks;
 
-    const RecentTrackSummary = userData.items.map((t) => ({
+    const recentTrackSummary = userData.items.map((t) => ({
       track_id: t.track.id,
       track_name: t.track.name,
       track_duration: t.track.duration_ms,
@@ -272,7 +276,7 @@ export async function getRecentlyPlayer(req: Request, res: Response) {
       artist_name: t.track.artists.map((a) => a.name).join(", ")
     }));
 
-    return res.json(RecentTrackSummary);
+    return res.json(recentTrackSummary);
   } catch (e) {
     console.error(e);
     return res.status(500).json({ error: "Error fetching most recent tracks" });
@@ -314,8 +318,8 @@ export async function getArtistDetails(req: Request, res: Response) {
 
       const refreshed = await refreshAccessToken(refreshToken);
       if (!refreshed.ok) {
-        res.clearCookie("spotify_access_token");
-        res.clearCookie("spotify_refresh_token");
+        res.clearCookie("spotify_access_token", { path: "/" });
+        res.clearCookie("spotify_refresh_token", { path: "/" });
         return res.status(401).json({ error: "Session expired" });
       }
 
@@ -324,8 +328,9 @@ export async function getArtistDetails(req: Request, res: Response) {
       res.cookie("spotify_access_token", access_token, {
         httpOnly: true,
         sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
-        maxAge: expires_in * 1000
+        secure: false,
+        maxAge: expires_in * 1000,
+        path: "/"
       });
 
       data = await fetch(`https://api.spotify.com/v1/artists/${id}`, {
@@ -390,8 +395,8 @@ export async function getTrackDetails(req: Request, res: Response) {
 
       const refreshed = await refreshAccessToken(refreshToken);
       if (!refreshed.ok) {
-        res.clearCookie("spotify_access_token");
-        res.clearCookie("spotify_refresh_token");
+        res.clearCookie("spotify_access_token", { path: "/" });
+        res.clearCookie("spotify_refresh_token", { path: "/" });
         return res.status(401).json({ error: "Session expired" });
       }
 
@@ -400,8 +405,9 @@ export async function getTrackDetails(req: Request, res: Response) {
       res.cookie("spotify_access_token", access_token, {
         httpOnly: true,
         sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
-        maxAge: expires_in * 1000
+        secure: false,
+        maxAge: expires_in * 1000,
+        path: "/"
       });
 
       data = await fetch(`https://api.spotify.com/v1/tracks/${id}`, {
@@ -463,8 +469,8 @@ export async function getUserPlaylist(req: Request, res: Response) {
 
       const refreshed = await refreshAccessToken(refreshToken);
       if (!refreshed.ok) {
-        res.clearCookie("spotify_access_token");
-        res.clearCookie("spotify_refresh_token");
+        res.clearCookie("spotify_access_token", { path: "/" });
+        res.clearCookie("spotify_refresh_token", { path: "/" });
         return res.status(401).json({ error: "Session expired" });
       }
 
@@ -473,8 +479,9 @@ export async function getUserPlaylist(req: Request, res: Response) {
       res.cookie("spotify_access_token", access_token, {
         httpOnly: true,
         sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
+        secure: false,
         maxAge: expires_in * 1000,
+        path: "/"
       });
 
       data = await fetch("https://api.spotify.com/v1/me/playlists?limit=50", {
@@ -536,8 +543,8 @@ export async function getPlaylistDetails(req: Request, res: Response) {
 
       const refreshed = await refreshAccessToken(refreshToken);
       if (!refreshed.ok) {
-        res.clearCookie("spotify_access_token");
-        res.clearCookie("spotify_refresh_token");
+        res.clearCookie("spotify_access_token", { path: "/" });
+        res.clearCookie("spotify_refresh_token", { path: "/" });
         return res.status(401).json({ error: "Session expired" });
       }
 
@@ -546,8 +553,9 @@ export async function getPlaylistDetails(req: Request, res: Response) {
       res.cookie("spotify_access_token", access_token, {
         httpOnly: true,
         sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
-        maxAge: expires_in * 1000
+        secure: false,
+        maxAge: expires_in * 1000,
+        path: "/"
       });
 
       data = await fetch(`https://api.spotify.com/v1/playlists/${id}`, {
@@ -611,8 +619,8 @@ export async function getPlaylistTracks(req: Request, res: Response) {
 
       const refreshed = await refreshAccessToken(refreshToken);
       if (!refreshed.ok) {
-        res.clearCookie("spotify_access_token");
-        res.clearCookie("spotify_refresh_token");
+        res.clearCookie("spotify_access_token", { path: "/" });
+        res.clearCookie("spotify_refresh_token", { path: "/" });
         return res.status(401).json({ error: "Session expired" });
       }
 
@@ -621,8 +629,9 @@ export async function getPlaylistTracks(req: Request, res: Response) {
       res.cookie("spotify_access_token", access_token, {
         httpOnly: true,
         sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
+        secure: false,
         maxAge: expires_in * 1000,
+        path: "/"
       });
 
       data = await fetch(`https://api.spotify.com/v1/playlists/${id}/tracks?limit=${limit}&offset=${offset}`, {

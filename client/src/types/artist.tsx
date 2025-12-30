@@ -2,7 +2,7 @@ export type TopArtist = {
   artist_id: string;
   artist_follower_total: number;
   artist_name: string;
-  artist_images: string;
+  artist_images: string | null;
 };
 
 export type TopArtistSummary = TopArtist[];
