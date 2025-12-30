@@ -1,7 +1,7 @@
 export type PlaylistDetail = {
   playlist_id: string;
   playlist_name: string;
-  playlist_description: string;
+  playlist_description: string | null;
   is_public: boolean | null;
   playlist_image: string | null;
   playlist_owner: string;
@@ -21,3 +21,15 @@ export type PlaylistAllTracks = {
   offset: number;
   items: PlaylistTrackItem[];
 }
+
+export type UserPlaylistItem = {
+  playlist_id: string;
+  playlist_name: string;
+  playlist_description: string | null;
+  playlist_image: string | null;
+  owner_name: string;
+  total_tracks: number;
+  is_public: boolean | null;
+};
+
+export type UserPlaylistsSummary = UserPlaylistItem[];
