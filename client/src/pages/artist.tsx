@@ -1,5 +1,7 @@
 export default function Artists() {
   return (
-    <div></div>
+    <div className="text-white">
+      Top Artists
+    </div>
   )
 }

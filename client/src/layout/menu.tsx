@@ -4,24 +4,25 @@ import { BsFillPersonFill } from "react-icons/bs";
 import { PiPlaylist } from "react-icons/pi";
 import { MdReplay } from "react-icons/md";
 import { BiAlbum } from "react-icons/bi";
+import { IoExitOutline } from "react-icons/io5";
 
 import clsx from "clsx";
 import logo from "../assets/spotify_green.png";
 
 const navItems = [
-  { to: "/profile", label: "Profile", icon: BsFillPersonFill },
-  { to: "/artist", label: "Top Artists", icon: IoMusicalNotes },
-  { to: "/tracks", label: "Top Tracks", icon: BiAlbum },
-  { to: "/recent", label: "Recent", icon: MdReplay },
+  { to: "/", label: "Profile", icon: BsFillPersonFill },
+  { to: "/top-artists", label: "Top Artists", icon: IoMusicalNotes },
+  { to: "/top-tracks", label: "Top Tracks", icon: BiAlbum },
+  { to: "/recently-played", label: "Recent", icon: MdReplay },
   { to: "/playlists", label: "Playlists", icon: PiPlaylist },
 ]
 
 export default function Menu() {
   return (
     <div className="absolute top-0 inset-0 shadow-xl">
-      <div className="bg-[#121212] text-white h-screen w-27 flex justify-center items-center">
+      <div className="bg-[#121212] text-white h-full w-27 my-5 flex flex-col justify-between items-center">
         {/* Spotify Logo */}
-        <img src={logo} alt="spotify_logo" className="absolute top-7 flex justify-center items-center h-13 w-auto cursor-pointer"/>
+        <img src={logo} alt="spotify_logo" className="flex justify-center items-center h-13 w-auto cursor-pointer"/>
 
         {/* Navigation Bar */}
         <nav className="w-full">
@@ -43,6 +44,8 @@ export default function Menu() {
             ))}
           </ul>
         </nav>
+
+        <IoExitOutline />
 
       </div>
     </div>

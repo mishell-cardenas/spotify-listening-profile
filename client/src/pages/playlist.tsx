@@ -1,5 +1,7 @@
 export default function Playlist() {
   return (
-    <div></div>
+    <div className="text-white">
+      Playlists
+    </div>
   )
 }

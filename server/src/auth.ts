@@ -118,7 +118,7 @@ router.get("/callback", async (req, res) => {
       });
     }
 
-    return res.redirect(`${FRONTEND_ORIGIN}/main`);
+    return res.redirect(`${FRONTEND_ORIGIN}/`);
   } catch {
     return res.redirect(`${FRONTEND_ORIGIN}/?error=server_error`);
   }
