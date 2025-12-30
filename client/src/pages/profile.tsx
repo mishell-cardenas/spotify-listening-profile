@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import type { ProfileSummary } from "../types/profile";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "http://localhost:3000";
+
 export default function Profile() {
   const [profile, setProfile] = useState<ProfileSummary | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -11,10 +13,15 @@ export default function Profile() {
 
   async function getProfileInfo() {
     try {
-      const response = await fetch("/profile/summary", {
+      const response = await fetch(`${BACKEND_URL}/profile/summary`, {
         method: "GET",
         credentials: "include",
       });
+
+      if (response.status === 401) {
+        navigate("/login");
+        return;
+      }
 
       if (!response.ok) {
         throw new Error(`Failed to fetch profile (${response.status})`);
