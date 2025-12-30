@@ -33,8 +33,9 @@ router.get("/login", (req, res) => {
   res.cookie("spotify_auth_state", state, {
     httpOnly: true,
     sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-    maxAge: 10 * 60 * 1000 // 10 minutes
+    secure: false,
+    maxAge: 10 * 60 * 1000, // 10 minutes
+    path: "/",
   });
 
   const params = new URLSearchParams({
@@ -67,7 +68,7 @@ router.get("/callback", async (req, res) => {
   }
 
   // Clear state cookie
-  res.clearCookie("spotify_auth_state");
+  res.clearCookie("spotify_auth_state", { path: "/" });
 
   // Token exchange
   try {
@@ -104,8 +105,9 @@ router.get("/callback", async (req, res) => {
     res.cookie("spotify_access_token", access_token, {
       httpOnly: true,
       sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
+      secure: false,
       maxAge: expires_in * 1000,
+      path: "/",
     });
 
     // Refresh toke
@@ -113,12 +115,13 @@ router.get("/callback", async (req, res) => {
       res.cookie("spotify_refresh_token", refresh_token, {
         httpOnly: true,
         sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
+        secure: false,
         maxAge: 30 * 24 * 60 * 60 * 1000,
+        path: "/",
       });
     }
 
-    return res.redirect(`${FRONTEND_ORIGIN}/`);
+    return res.redirect(`${FRONTEND_ORIGIN}/profile`);
   } catch {
     return res.redirect(`${FRONTEND_ORIGIN}/?error=server_error`);
   }
@@ -129,8 +132,9 @@ router.get("/callback", async (req, res) => {
  * Clear auth cookies
  */
 router.post("/logout", (_, res) => {
-  res.clearCookie("spotify_access_token");
-  res.clearCookie("spotify_refresh_token");
+  res.clearCookie("spotify_auth_state", { path: "/" });
+  res.clearCookie("spotify_access_token", { path: "/" });
+  res.clearCookie("spotify_refresh_token", { path: "/" });
   res.json({ ok: true });
 })
 
