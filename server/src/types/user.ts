@@ -1,8 +1,10 @@
+import type { SpotifyImage } from "../utils/types.js";
+
 export type UserProfile = {
   id: string;
   display_name: string;
   followers: { total: number };
-  images: { url: string };
+  images: SpotifyImage[];
 }
 
 export type TopArtist = {
@@ -10,9 +12,14 @@ export type TopArtist = {
     id: string;
     followers: { total: number };
     name: string;
-    images: Array<{ url: string }>;
-  }>
-}
+    images: SpotifyImage[];
+  }>;
+  total?: number;
+  limit?: number;
+  offset?: number;
+  next?: string | null;
+  previous?: string | null;
+};
 
 export type TopTrack = {
   items: Array<{
@@ -22,29 +29,37 @@ export type TopTrack = {
     album: {
       id: string;
       name: string;
-      images: Array<{ url: string }>;
+      images: SpotifyImage[];
     };
     artists: Array<{
       id: string;
       name: string;
     }>;
   }>;
+  total?: number;
+  limit?: number;
+  offset?: number;
+  next?: string | null;
+  previous?: string | null;
 };
 
 export type RecentTracks = {
   items: Array<{
+    played_at: string;
     track: {
-      album: { 
+      id: string;
+      name: string;
+      duration_ms: number;
+      album: {
         name: string;
-        images: Array<{ url: string }>;
-      },
+        images: SpotifyImage[];
+      };
       artists: Array<{
         id: string;
         name: string;
-      }>,
-      duration_ms: number;
-      id: string;
-      name: string;
-    }
+      }>;
+    };
   }>;
+  next?: string | null;
+  limit?: number;
 };
