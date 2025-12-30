@@ -16,8 +16,9 @@ This project is divided into two main directories:
 - **`/client`**: Contains the React frontend where users interact with their Spotify data.
 
 ## Setup
-1. Register a Spotify App and add `http://127.0.0.1:3000/callback`
-2. Create an `.env` file in the root of the project (used by the Express backend) with the following information:
+1. Register a Spotify App: https://developer.spotify.com/dashboard.
+2. Add `http://127.0.0.1:3000/callback` as a Redirect URI in the app settings.
+3. Create an `.env` file in the root of the project (used by the Express backend) with the following information:
 ```bash
 CLIENT_ID=<Insert Client ID from Spotify App>
 CLIENT_SECRET=<Insert Client Secret from Spotify App>
