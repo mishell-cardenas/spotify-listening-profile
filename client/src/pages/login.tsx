@@ -1,10 +1,12 @@
 import logo from "../assets/spotify_white.png";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "http://127.0.0.1:3000";
+
 export default function Login() {
   return (
-    <div className="h-screen flex flex-col items-center text-center px-5 overflow-y-h">
+    <div className="h-screen flex flex-col items-center text-center px-5 overflow-y-hidden">
       <div className="flex flex-col items-center justify-center gap-3 flex-1">
-        <img src={logo} alt="spotify_logo" className="h-17 w-auto mb-7"/>
+        <img src={logo} alt="spotify_logo" className="h-16 w-auto mb-7"/>
         <p className="text-white font-bold text-5xl">
           Spotify Listening History
         </p>
@@ -12,13 +14,14 @@ export default function Login() {
           Log in to retrieve the songs, artists, and moments that defined your music.
         </p>
         <a
-          className="px-20 py-2 rounded-3xl bg-[#1DB954] text-[#121212] font-semibold mt-3"
-          href="/auth/login"
+          aria-label="Log in with Spotify"
+          className="px-10 py-3 rounded-3xl bg-[#1DB954] text-[#121212] font-semibold mt-3 hover:scale-105 active:scale-100"
+          href={`${BACKEND_URL}/auth/login`}
         >
-          Log In
+          Connect Spotify
         </a>
       </div>
-      <p className="text-[#535353] text-sm h-15">
+      <p className="text-[#535353] text-sm mb-4">
         Built using the Spotify Web API | Not affiliated with Spotify. <br/>
         © 2026 Tony Hsu Tai & Mishell Cardenas Espinosa
       </p>
