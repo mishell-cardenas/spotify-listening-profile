@@ -3,7 +3,7 @@ import {
   getProfileSummary,
   getTopArtist,
   getTopTracks,
-  getRecentlyPlayer,
+  getRecentlyPlayed,
   getArtistDetails,
   getTrackDetails,
   getUserPlaylist,
@@ -43,7 +43,7 @@ router.get("/track/50", getTopTracks)
  * GET me/player/recently-played?limit=50
  * Info: get recently played tracks (50)
  */
-router.get("/profile/recent/50", getRecentlyPlayer)
+router.get("/profile/recent/50", getRecentlyPlayed)
 
 // --------------------------------------
 // Artists Web API
