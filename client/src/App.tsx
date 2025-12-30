@@ -10,8 +10,10 @@ import './App.css'
 
 function AuthLayout() {
   return (
-    <div className="flex min-h-screen w-screen">
-      <Menu />
+    <div className="flex h-screen overflow-hidden">
+      <aside className="sticky top-0 h-screen shrink-0">
+        <Menu />
+      </aside>
       <main className="flex-1 overflow-y-auto">
         <Outlet />
       </main>

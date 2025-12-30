@@ -37,7 +37,7 @@ export default function Menu() {
   }
 
   return (
-    <div className="w-28 bg-[#121212] text-white flex flex-col justify-between items-center py-6 shadow-xl">
+    <div className="w-28 h-screen bg-[#121212] text-white flex flex-col justify-between items-center py-6 shadow-xl">
       {/* Spotify Logo */}
       <img src={logo} alt="spotify_logo" className="flex justify-center items-center h-13 w-auto cursor-pointer"/>
 
