@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { GoDotFill } from "react-icons/go";
+import { formatNumber, formatDuration } from "../utils/formatNumber";
 
 import type { ProfileSummary } from "../types/profile";
 import type { TopArtistSummary } from "../types/artist";
@@ -9,20 +10,6 @@ import type { UserPlaylistsSummary } from "../types/playlist";
 
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "http://localhost:3000";
-
-function formatNumber(n: number): string {
-  if (n >= 1_000_000_000) return (n / 1_000_000_000).toFixed(1).replace(/\.0$/, "") + "B";
-  if (n >= 1_000_000) return (n / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
-  if (n >= 1_000) return (n / 1_000).toFixed(1).replace(/\.0$/, "") + "k";
-  return n.toString();
-}
-
-function formatDuration(ms: number): string {
-  const totalSeconds = Math.floor(ms / 1000);
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-}
 
 export default function Profile() {
   const [profile, setProfile] = useState<ProfileSummary | null>(null);
@@ -147,7 +134,13 @@ export default function Profile() {
     getTopTracks();
   }, []);
 
-  if (loading) return <div>Loading profile</div>;
+  if (loading) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="h-20 w-20 animate-spin rounded-full border-10 border-[#1DB954] border-t-[#212121]" />
+      </div>
+    )
+  };
   if (error) return <div className="text-red-500">{error}</div>
   if (!profile) return null;
 
@@ -160,7 +153,7 @@ export default function Profile() {
           <img
             src={profile.imageUrl}
             alt="Profile"
-            className="h-42 w-42 rounded-full object-cover"
+            className="h-42 w-42 rounded-full object-cover cursor-pointer"
           />
         ) : (
           <div className="flex justify-center items-center">
@@ -206,13 +199,13 @@ export default function Profile() {
           {topArtists?.slice(0, 10).map((a) => (
             <div className="flex flew-row items-center gap-5">
               {a.artist_images ? (
-                <img src={a.artist_images} alt="not image found" className="w-12 h-12 object-cover rounded-full" />
+                <img src={a.artist_images} alt="not image found" className="w-12 h-12 object-cover rounded-full cursor-pointer" />
               ) : (
                 <div>N/A</div>
               )}
 
               <div>
-                <div className="text-white text-md tracking-wide">{a.artist_name}</div>
+                <div className="text-white text-md tracking-wide cursor-pointer hover:underline">{a.artist_name}</div>
                 <div className="flex flex-row text-[8pt] gap-2">
                   <div className="text-[#1DB954] font-semibold">{formatNumber(a.artist_follower_total)}</div>
                   <div className="text-[#535353] font-semibold">Followers</div>
@@ -238,7 +231,7 @@ export default function Profile() {
                 )}
 
                 <div className="flex flex-col gap-1">
-                  <div className="text-white text-md tracking-wide">{t.track_name}</div>
+                  <div className="text-white text-md tracking-wide cursor-pointer hover:underline">{t.track_name}</div>
                   <div className="flex flex-row text-[8pt] items-center text-white text-xs gap-1">
                     <div>{t.artist_name}</div>
                     <GoDotFill size={7}/>
