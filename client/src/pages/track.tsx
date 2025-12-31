@@ -43,7 +43,13 @@ export default function Track() {
     getTopTracks();
   }, []);
 
-  if (loading) return <div>Loading profile</div>;
+  if (loading) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="h-20 w-20 animate-spin rounded-full border-10 border-[#1DB954] border-t-[#212121]" />
+      </div>
+    )
+  };
   if (error) return <div className="text-red-500">{error}</div>
   if (!topTracks) return null;
 
