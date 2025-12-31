@@ -153,7 +153,7 @@ export default function Profile() {
           <img
             src={profile.imageUrl}
             alt="Profile"
-            className="h-42 w-42 rounded-full object-cover"
+            className="h-42 w-42 rounded-full object-cover cursor-pointer"
           />
         ) : (
           <div className="flex justify-center items-center">
@@ -199,13 +199,13 @@ export default function Profile() {
           {topArtists?.slice(0, 10).map((a) => (
             <div className="flex flew-row items-center gap-5">
               {a.artist_images ? (
-                <img src={a.artist_images} alt="not image found" className="w-12 h-12 object-cover rounded-full" />
+                <img src={a.artist_images} alt="not image found" className="w-12 h-12 object-cover rounded-full cursor-pointer" />
               ) : (
                 <div>N/A</div>
               )}
 
               <div>
-                <div className="text-white text-md tracking-wide">{a.artist_name}</div>
+                <div className="text-white text-md tracking-wide cursor-pointer hover:underline">{a.artist_name}</div>
                 <div className="flex flex-row text-[8pt] gap-2">
                   <div className="text-[#1DB954] font-semibold">{formatNumber(a.artist_follower_total)}</div>
                   <div className="text-[#535353] font-semibold">Followers</div>
@@ -231,7 +231,7 @@ export default function Profile() {
                 )}
 
                 <div className="flex flex-col gap-1">
-                  <div className="text-white text-md tracking-wide">{t.track_name}</div>
+                  <div className="text-white text-md tracking-wide cursor-pointer hover:underline">{t.track_name}</div>
                   <div className="flex flex-row text-[8pt] items-center text-white text-xs gap-1">
                     <div>{t.artist_name}</div>
                     <GoDotFill size={7}/>

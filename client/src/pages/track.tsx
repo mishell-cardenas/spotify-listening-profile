@@ -67,12 +67,12 @@ export default function Track() {
           <div className="grid grid-cols-[2fr_1fr_1fr] items-center">
             <div className="flex flew-row items-center gap-5">
               {t.album_image ? (
-                <img src={t.album_image} alt="not image found" className="w-20 h-20 object-cover rounded-md" />
+                <img src={t.album_image} alt="not image found" className="w-20 h-20 object-cover rounded-md cursor-pointer" />
               ) : (
                 <div>N/A</div>
               )}
               <div className="flex flex-col gap-2">
-                <div className="text-white text-lg font-semibold tracking-wide overflow-clip">{t.track_name}</div>
+                <div className="text-white text-lg font-semibold tracking-wide overflow-clip cursor-pointer hover:underline">{t.track_name}</div>
                 <div className="text-sm items-center text-white gap-1">{t.artist_name}</div>
               </div>
             </div>
