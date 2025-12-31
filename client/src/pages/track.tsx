@@ -30,7 +30,6 @@ export default function Track() {
       }
 
       const data: TopTrackSummary = await response.json();
-      console.log("top tracks: ", data)
       setTopTracks(data);
     } catch (e) {
       console.error(e);
