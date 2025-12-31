@@ -58,7 +58,7 @@ export default function Track() {
 
       {/* Track Information */}
       <div className="flex flex-col w-screen gap-5">
-        {topTracks?.slice(0, 10).map((t) => (
+        {topTracks?.map((t) => (
           <div className="grid grid-cols-3 w-full items-center">
             <div className="flex flew-row items-center gap-5">
               {t.album_image ? (
