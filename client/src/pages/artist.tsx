@@ -100,7 +100,7 @@ export default function Artists() {
                 <img 
                   src={a.artist_images ?? undefined} 
                   alt="not image found" 
-                  className="h-full w-full object-cover cursor-pointer" 
+                  className="h-full w-full object-cover cursor-pointer hover:scale-110 transition-all duration-200" 
                   onClick={() => openArtistPopup(a.artist_id)}  
                 />
               ) : (
