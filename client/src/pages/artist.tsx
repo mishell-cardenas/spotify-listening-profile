@@ -82,7 +82,7 @@ export default function Artists() {
       <div className="flex items-start justify-between">
         {/* Page Title */}
         <div className="flex flex-col gap-3 w-full">
-          <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-row justify-between items-end">
             <div className="font-bold text-white text-5xl tracking-wide">Top Artists</div>
             <TimeRangeButtons value={range} onChange={setRange}/>
           </div>
