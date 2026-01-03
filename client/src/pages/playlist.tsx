@@ -47,7 +47,7 @@ export default function Playlist() {
   if (loading) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center">
-        <div className="h-20 w-20 animate-spin rounded-full border-10 border-[#1DB954] border-t-[#212121]" />
+        <div className="h-15 w-15 animate-spin rounded-full border-5 border-[#1DB954] border-t-[#212121]" />
       </div>
     )
   };

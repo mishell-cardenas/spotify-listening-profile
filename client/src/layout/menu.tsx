@@ -37,10 +37,10 @@ export default function Menu() {
   }
 
   return (
-    <div className="w-28 h-screen bg-[#121212] text-white flex flex-col justify-between items-center py-6 shadow-xl">
+    <div className="w-22 h-screen bg-[#121212] text-white flex flex-col justify-between items-center py-6 shadow-xl">
       {/* Spotify Logo */}
       <a href="/profile">
-        <img src={logo} alt="spotify_logo" className="flex justify-center items-center h-13 w-auto cursor-pointer"/>
+        <img src={logo} alt="spotify_logo" className="flex justify-center items-center h-10 w-auto cursor-pointer"/>
       </a>
 
       {/* Navigation Bar */}
@@ -52,13 +52,13 @@ export default function Menu() {
               to={to}
               className={({ isActive }) =>
                 clsx(
-                  "flex flex-col gap-1 h-20 justify-center items-center border-l-6 transition-all duration-200",
+                  "flex flex-col gap-1 h-17 justify-center items-center border-l-6 transition-all duration-200",
                   isActive ? "opacity-100 border-[#1DB954] bg-[#212121]" : "opacity-80 border-[#121212] hover:opacity-100 hover:border-[#1DB954] hover:bg-[#212121]"
                 )
               }
             >
-              <Icon className="text-3xl" />
-              <div className="text-xs">{label}</div>
+              <Icon className="text-2xl" />
+              <div className="text-[10px]">{label}</div>
             </NavLink>
           ))}
         </ul>
@@ -69,7 +69,7 @@ export default function Menu() {
         aria-label="Log out"
         className="mb-5 opacity-60 hover:opacity-100 hover:scale-105 active:scale-100 transition"
       >
-        <IoExitOutline className="text-3xl"/>
+        <IoExitOutline className="text-2xl rotate-180"/>
       </button>
 
     </div>
