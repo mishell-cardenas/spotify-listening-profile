@@ -6,7 +6,8 @@ const router = Router();
 const CLIENT_ID = process.env.CLIENT_ID!;
 const CLIENT_SECRET = process.env.CLIENT_SECRET!;
 const REDIRECT_URI = process.env.REDIRECT_URI!;
-const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN ?? "http://127.0.0.1:5173";
+
+const isProd = process.env.NODE_ENV! === "production";
 
 const SCOPES = [
   "user-read-private",
@@ -32,8 +33,8 @@ router.get("/login", (req, res) => {
 
   res.cookie("spotify_auth_state", state, {
     httpOnly: true,
-    sameSite: "lax",
-    secure: false,
+    sameSite: "lax" as const,
+    secure: isProd,
     maxAge: 10 * 60 * 1000, // 10 minutes
     path: "/",
   });
@@ -60,11 +61,11 @@ router.get("/callback", async (req, res) => {
   const storedState = req.cookies.spotify_auth_state;
 
   if (!state || !storedState || state !== storedState) {
-    return res.redirect(`${FRONTEND_ORIGIN}/?error=state_mismatch`);
+    return res.redirect(`/?error=state_mismatch`);
   }
 
   if (!code) {
-    return res.redirect(`${FRONTEND_ORIGIN}/?error=missing_code`);
+    return res.redirect(`/?error=missing_code`);
   }
 
   // Clear state cookie
@@ -92,7 +93,7 @@ router.get("/callback", async (req, res) => {
     const tokenJson = await tokenRes.json();
 
     if (!tokenRes.ok) {
-      return res.redirect(`${FRONTEND_ORIGIN}/?error=token_exchange_failed`);
+      return res.redirect(`/?error=token_exchange_failed`);
     }
 
     const { access_token, refresh_token, expires_in } = tokenJson as {
@@ -121,9 +122,9 @@ router.get("/callback", async (req, res) => {
       });
     }
 
-    return res.redirect(`${FRONTEND_ORIGIN}/profile`);
+    return res.redirect(`/profile`);
   } catch {
-    return res.redirect(`${FRONTEND_ORIGIN}/?error=server_error`);
+    return res.redirect(`/?error=server_error`);
   }
 });
 
