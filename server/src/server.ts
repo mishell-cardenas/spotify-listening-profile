@@ -7,7 +7,7 @@ import router from "./api/routes.js";
 
 const app = express();
 
-const PORT = process.env.PORT ?? 3000;
+const PORT = Number(process.env.PORT) || 8080;
 const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN ?? "http://127.0.0.1:5173";
 
 // Middleware
@@ -25,6 +25,6 @@ app.use("/auth", authRouter);
 app.use("/", router)
 
 // Start Server
-app.listen(PORT, () => {
-  console.log(`API running on http://127.0.0.1:${PORT}`)
-})
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`API running on http://0.0.0.0:${PORT}`);
+});
