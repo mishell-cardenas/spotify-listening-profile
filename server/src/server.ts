@@ -13,22 +13,23 @@ console.log("Using PORT =", PORT);
 
 const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN;
 
+// Railway proxy
+app.set("trust proxy", 1)
+
+
 // Middleware
-app.use(express.json())
-app.use(cookieParser())
 app.use(
   cors({
     origin: FRONTEND_ORIGIN,
     credentials: true,
   })
 )
+app.use(express.json())
+app.use(cookieParser())
 
 // Routes
 app.use("/auth", authRouter)
 app.use("/", router)
-
-// Railway proxy
-app.set("trust proxy", 1)
 
 // Start Server
 app.listen(PORT, "0.0.0.0", () => {
