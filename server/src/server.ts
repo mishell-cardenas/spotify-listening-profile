@@ -7,7 +7,10 @@ import router from "./api/routes.js";
 
 const app = express();
 
+console.log("ENV PORT =", process.env.PORT);
 const PORT = Number(process.env.PORT) || 8080;
+console.log("Using PORT =", PORT);
+
 const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN;
 
 // Middleware
