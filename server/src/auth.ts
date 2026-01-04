@@ -32,7 +32,7 @@ router.get("/login", (req, res) => {
 
   res.cookie("spotify_auth_state", state, {
     httpOnly: true,
-    sameSite: "lax",
+    sameSite: "none",
     secure: false,
     maxAge: 10 * 60 * 1000, // 10 minutes
     path: "/",
@@ -104,7 +104,7 @@ router.get("/callback", async (req, res) => {
     // Access token
     res.cookie("spotify_access_token", access_token, {
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: "none",
       secure: false,
       maxAge: expires_in * 1000,
       path: "/",
@@ -114,7 +114,7 @@ router.get("/callback", async (req, res) => {
     if (refresh_token) {
       res.cookie("spotify_refresh_token", refresh_token, {
         httpOnly: true,
-        sameSite: "lax",
+        sameSite: "none",
         secure: false,
         maxAge: 30 * 24 * 60 * 60 * 1000,
         path: "/",
