@@ -34,3 +34,7 @@ app.set("trust proxy", 1)
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`API running on http://0.0.0.0:${PORT}`);
 });
+
+// Startup Logs
+console.log("NODE_ENV =", process.env.NODE_ENV);
+console.log("FRONTEND_ORIGIN =", process.env.FRONTEND_ORIGIN);
