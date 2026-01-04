@@ -60,7 +60,25 @@ export async function getProfileSummary(req: Request, res: Response) {
     }
 
     if (!data.ok) {
-      return res.status(data.status).json({ error: "Failed to fetch profile" });
+      const rawBody = await data.text();
+      console.error("Spotify getProfileSummary error:", {
+        status: data.status,
+        body: rawBody
+      })
+
+      let parsedBody: unknown = rawBody;
+      try {
+        parsedBody = JSON.parse(rawBody)
+      } catch {
+        parsedBody = rawBody
+      }
+
+      return res.status(data.status).json({
+        error: "spotify_error",
+        spotifyStatus: data.status,
+        spotifyBody: parsedBody,
+      });
+      // return res.status(data.status).json({ error: "Failed to fetch profile" });
     }
 
     const userData = (await data.json()) as UserProfile;
