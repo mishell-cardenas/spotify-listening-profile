@@ -45,6 +45,7 @@ router.get("/login", (req, res) => {
     redirect_uri: REDIRECT_URI,
     scope: SCOPES,
     state,
+    show_dialog: "true",
   });
 
   res.redirect(`https://accounts.spotify.com/authorize?${params.toString()}`);
@@ -133,9 +134,17 @@ router.get("/callback", async (req, res) => {
  * Clear auth cookies
  */
 router.post("/logout", (_, res) => {
-  res.clearCookie("spotify_auth_state", { path: "/" });
-  res.clearCookie("spotify_access_token", { path: "/" });
-  res.clearCookie("spotify_refresh_token", { path: "/" });
+
+  const clearOpts = {
+    path: "/",
+    sameSite: "none" as const,
+    secure: isProd,
+  };
+
+  res.clearCookie("spotify_auth_state", clearOpts);
+  res.clearCookie("spotify_access_token", clearOpts);
+  res.clearCookie("spotify_refresh_token", clearOpts);
+
   res.json({ ok: true });
 })
 
