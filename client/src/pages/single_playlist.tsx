@@ -146,7 +146,7 @@ export default function SinglePlaylist() {
     <div className="mx-10 my-10 sm:mx-20 md:my-25">
       <div className="grid grid-cols-1 lg:grid-cols-[210px_1fr] gap-20 lg:gap-35">
         {/* Playlist Info */}
-        <div className="flex flex-col items-center text-center">
+        <div className="flex flex-col items-center text-center ml-0 lg:pl-20">
           <div className="w-[320px] h-80 rounded-3xl overflow-hidden">
             {selectedPlaylist.playlist_image ? (
                 <img src={selectedPlaylist.playlist_image} alt="not image found" className="h-full w-full object-cover" />
