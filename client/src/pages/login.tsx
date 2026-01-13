@@ -1,9 +1,13 @@
+import { useState } from "react";
+import ContactForm from "../components/ContactForm";
 import logo from "../assets/spotify_white.png";
 import demo from "../assets/spotify_demo.mp4";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_ORIGIN ?? "http://127.0.0.1:3000";
 
 export default function Login() {
+  const [requestAccess, setRequestAccess] = useState(false);
+
   return (
     <div className="h-screen w-screen flex flex-col items-center px-5">
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] py-10 w-full items-center justify-center gap-3 flex-1">
@@ -33,14 +37,15 @@ export default function Login() {
             >
               Connect Spotify
             </a>
-            <a
+            <button
               aria-label="Log in with Spotify"
-              className="px-8 py-3 rounded-3xl bg-[#000000] text-white font-bold mt-5 hover:scale-105 active:scale-100"
-              href={`${BACKEND_URL}/auth/login`}
+              className="px-8 py-3 rounded-3xl bg-[#000000] text-white font-bold mt-5 hover:scale-105 active:scale-100 cursor-pointer"
+              onClick={() => setRequestAccess(true)}
             >
               Request Access
-            </a>
+            </button>
           </div>
+          {requestAccess && <ContactForm />}
         </div>
         <div className="relative w-full overflow-hidden rounded-xl aspect-video bg-[#121212]">
           <video
